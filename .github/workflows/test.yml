@@ -6,18 +6,27 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    environment: tmp
     permissions:
       contents: write
 
     steps:
+    - name: Generate token
+      id: generate_token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Save Points Marketplace Identities
       run: echo "Hello!" >> test.txt
 
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - uses: stefanzweifel/git-auto-commit-action@v5
       with:
+        token: ${{ steps.generate_token.outputs.token }}
         commit_message: "chore: update"
         branch: main
         file_pattern: '*.txt'
