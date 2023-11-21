@@ -23,7 +23,7 @@ jobs:
       with:
         token: ${{ steps.generate_token.outputs.token }}
 
-    - name: Save Points Marketplace Identities
+    - name: Save Identities
       run: echo "Hello!" >> test.txt
 
     - uses: stefanzweifel/git-auto-commit-action@v5
